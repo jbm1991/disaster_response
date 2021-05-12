@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "disaster response",
+            "database": "${workspaceFolder:disaster_response}/data/DisasterResponse.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

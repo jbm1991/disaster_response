@@ -7,7 +7,6 @@ import pandas as pd
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
-from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics import accuracy_score, classification_report
@@ -15,58 +14,12 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.pipeline import FeatureUnion, Pipeline
 from sqlalchemy import create_engine
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+from .custom_transformers.lengthsCalculator import LengthsCalculator
+from .custom_transformers.sentimentExtractor import SentimentExtractor
 
 nltk.download(['punkt', 'wordnet'])
 nltk.download(['stopwords'])
-
-
-class LengthsCalculator(BaseEstimator, TransformerMixin):
-    """
-    A custom transformer which calculates the character count, word
-    count, sentence count, average word length and average sentence length.
-    """
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        X_counts = pd.Series(X, name="char_count").apply(
-            lambda x: sum(len(word) for word in str(x).split(" ")))
-        X_out = pd.DataFrame(X_counts)
-        X_out['word_count'] = pd.Series(X).apply(
-            lambda x: len(str(x).split(" ")))
-        X_out['sent_count'] = pd.Series(X).apply(
-            lambda x: len(str(x).split(".")))
-        X_out['word_length'] = X_out['char_count'] / X_out['word_count']
-        X_out['sent_length'] = X_out['word_count'] / X_out['sent_count']
-        return X_out
-
-
-class SentimentExtractor(BaseEstimator, TransformerMixin):
-    """
-    A custom transformer which returns the sentiment of the messages using
-    Vader Sentiment. Sentiment is binned into positive, negative and neutral.
-    """
-
-    def __init__(self):
-        self.analyzer = SentimentIntensityAnalyzer()
-
-    def get_sentiment(self, message):
-        vs = self.analyzer.polarity_scores(message)
-        if vs['compound'] >= 0.05:
-            return 2  # positive
-        elif vs['compound'] <= -0.05:
-            return 0  # negative
-        else:
-            return 1  # neutral
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X):
-        X_sentiment = pd.Series(X, name='sentiment').apply(self.get_sentiment)
-        return pd.DataFrame(X_sentiment)
 
 
 def load_data(database_filepath):

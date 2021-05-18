@@ -1,3 +1,7 @@
+# Custom
+models/classifier.pkl
+
+# Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

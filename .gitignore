@@ -1,4 +1,5 @@
 # Custom
+data/DisasterResponse.db
 models/classifier.pkl
 
 # Code

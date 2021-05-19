@@ -4,12 +4,32 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    Load the data from the CSV files and merge into 1 DataFrame.
+
+    Args:
+        messages_filepath (str): Messages CSV file
+        categories_filepath (str): Categories CSV file
+
+    Returns:
+        DataFrame: Combined data from the CSVs
+    """
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
     return messages.merge(categories, on='id')
 
 
 def clean_data(df):
+    """
+    Clean the data by separating into separate columns where appropriate
+    and removing duplicates.
+
+    Args:
+        df (DataFrame): The data in a DataFrame
+
+    Returns:
+        DataFrame: Cleaned data in a DataFrame
+    """
     # create a dataframe of the 36 individual category columns
     categories = df['categories'].str.split(';', expand=True)
     row = categories.iloc[0]
@@ -26,6 +46,12 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """Save the supplied DataFrame into a db file for querying
+
+    Args:
+        df (DataFrame): Data to be saved
+        database_filename (str): Path to save the file at
+    """
     engine = create_engine(f'sqlite:///{database_filename}')
     df.to_sql('Messages', engine, index=False)
 

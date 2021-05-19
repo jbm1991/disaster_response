@@ -1,5 +1,9 @@
 # Disaster Response Pipeline Project
 
+## Project Motiviation
+
+This project is an assignment in the Udacity Data Science Nanodegree. The aim is use an ETL pipeline and an ML pipeline to train a model which can categorise messages received by disaster response teams. Additionally there is a web application which shows visualisations of the dataset, and uses the trained model to predict the categorisations of new messages inputted into the website.
+
 ## Installation
 
 Please use Python 3.\*. You can install the necessary dependencies with the command `pip install -r requirements.txt`.
@@ -17,10 +21,6 @@ Please use Python 3.\*. You can install the necessary dependencies with the comm
    `python run.py`
 
 3. Go to [http://0.0.0.0:3001/](http://0.0.0.0:3001/)
-
-## Project Motiviation
-
-This project is an assignment in the Udacity Data Science Nanodegree. The aim is use an ETL pipeline and an ML pipeline to train a model which can categorise messages received by disaster response teams. Additionally there is a web application which shows visualisations of the dataset, and uses the trained model to predict the categorisations of new messages inputted into the website.
 
 ## File Descriptions
 

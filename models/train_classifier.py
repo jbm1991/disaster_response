@@ -174,6 +174,13 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    """
+    Save the trained model into a pickle file for future use.
+
+    Args:
+        model (GridSearchCV): Trained model
+        model_filepath (str): Filepath to save to
+    """
     pickle.dump(model, open(model_filepath, 'wb'))
 
 
